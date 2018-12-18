@@ -1,0 +1,130 @@
+
+
+.grid{
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr; /*OR 50% 50% (not recommended)*/
+  /* This can also be done by
+  grid-template-columns: repeat(3, 1fr);
+ */
+  grid-row-gap: 1em;
+  grid-column-gap: 1em;
+  /* This can also be done by
+  grid-gap: 1em;
+   */
+
+  /* Set height of rows  */
+  /* flexible height with minimum at 100 px */
+  grid-auto-rows: minmax(50px, auto);
+  /* fixed height at 100px (not recommended)
+  grid-auto-rows: 100px;
+ */
+}
+
+.grid > div{
+  background: #cefdce;
+  padding: 1em;
+  border-radius: 10px;
+}
+
+.grid > div:nth-child(3){
+  background: #48d1cc;
+}
+
+.heading{
+  grid-column: 1/4;
+  /* background: #3CB371; */
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  grid-auto-rows: minmax(100px, auto);
+  margin-left: 1em;
+  margin-right: 1em;
+  margin-top: 1em;
+
+}
+
+
+.heading > div{
+  background: #3CB371;
+  padding: 1em;
+  border-radius: 5px;
+  margin: 1em;
+  color: blue;
+}
+
+.heading > div:nth-child(1){
+  background-image: url("../images/logo.jpg");
+  color: #fff;
+  font-family: 'Barrio';
+  font-weight: bold;
+}
+
+.options{
+  grid-column: 1;
+  grid-row: 2/20;
+  margin-left: 1em;
+  margin-bottom: 1em;
+}
+
+.options a {
+    padding: 1em;
+    text-decoration: none;
+    font-size: 20px;
+    color: #818181;
+    display: block;
+}
+
+.options a:hover {
+    color: #047b04;
+    text-decoration: none;
+}
+
+ul {
+  display: none;
+}
+
+.pagination{
+  grid-column: 2/4;
+  display: inline-block;
+  margin-right: 1em;
+  background: #f5fffa;
+}
+
+.pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+
+.pagination a.active {
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 5px;
+}
+
+.pagination a:hover:not(.active) {
+    background-color: #dddddd;
+    border-radius: 5px;
+}
+
+.result{
+  grid-column: 2/4;
+  grid-row: 3/20;
+
+  display: grid;
+  grid-template-columns: 1fr 13fr;
+  grid-template-rows: : 3fr 27fr;
+
+  margin-right: 1em;
+  margin-bottom: 1em;
+}
+
+
+.result > div{
+  background-color: #cefdce;
+  padding-left: 1em;
+  padding-bottom: 1em;
+  border-radius: 5px;
+  margin: 1em;
+  color: blue;
+}

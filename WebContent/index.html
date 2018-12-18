@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/master.css">
+    <link href='https://fonts.googleapis.com/css?family=Barrio' rel='stylesheet'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <title>Team Boolean</title>
+  </head>
+  <script type="text/javascript">
+     var x="-1";
+     function analytics()
+     {
+    	 var config=document.getElementById('search').value;
+    	
+    	 if(config=="")
+     	{
+     	  alert('Enter any Search Query');
+     	}
+    	 else
+    		 {
+    		 window.location.href='Analytics.jsp?query='+config;
+    		 }
+     }
+     function follow(e, item) 
+      {
+	    e = e || window.event;  //IE stuff
+	  //  e.preventDefault();     //prevent link click triggering
+	    e.returnValue = false;
+	    //also prevent link click triggering (old IE style)
+	    x=item.getAttribute('class');
+	    loadXMLDoc();
+	   }
+      function loadXMLDoc()
+      { document.getElementById('result').innerHTML=null;
+        var config=document.getElementById('search').value;
+        if(config=="")
+        	{
+        	  alert('Enter any Search Query');
+        	}
+        else
+      {
+        var url="Searchjsp.jsp?query="+config;
+        var boxes=document.getElementsByName('city');
+        var checkedboxes="";
+        for (var i=0; i<boxes.length; i++) 
+        {
+            if (boxes[i].checked) {
+               checkedboxes=boxes[i].value
+            }
+        }
+  	    if(x!=-1)
+  	    {  if(checkedboxes!="")
+  	        {  
+   		     url="Searchjsp.jsp?query="+config+"&filter="+checkedboxes+"&to="+x;
+   		    }
+  	      else
+  	       {
+  		     url="Searchjsp.jsp?query="+config+"&to="+x;
+  	       }
+  	    }
+  	    if(checkedboxes!="")
+  	    {  if(x!=-1)
+  	       { 
+  	    	url="Searchjsp.jsp?query="+config+"&filter="+checkedboxes+"&to="+x;
+  	       }
+  	    else
+  	    	{
+  	    	  url="Searchjsp.jsp?query="+config+"&filter="+checkedboxes+"&to="+0;
+  	    	}
+   	    }
+        var xmlhttp;
+        if (window.XMLHttpRequest)
+        {
+            xmlhttp=new XMLHttpRequest();
+        }
+        else
+        {
+            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange=function()
+        {
+            if (xmlhttp.readyState==4 && xmlhttp.status==200)
+            {   
+                var result=xmlhttp.responseText;
+                var results=result.split("\n");
+                var i=0;
+		        	while(i < results.length-17)
+		        	{
+		                var div1 = document.createElement("DIV");
+		                var div2 = document.createElement("DIV");
+		                var img = document.createElement("img");
+		                img.setAttribute("src",results[i+6]);
+		                img.setAttribute("alt", "blank");
+		                div1.appendChild(img);
+		                
+		                var br = document.createElement("br");
+		                var br1 = document.createElement("br");
+		                
+		                var username = document.createTextNode(results[i+3]+"  ");
+		                var handlename = document.createTextNode("@"+results[i+5]);
+		                var handle = document.createElement("a");
+		                handle.setAttribute("href", "https://twitter.com/intent/user?user_id="+results[i+4]);
+		                handle.setAttribute("target", "_blank");
+		                handle.appendChild(handlename);
+		                
+		                var tweettext = document.createTextNode(results[i+1]);
+		                
+		                var urltext = document.createTextNode("Go to the tweet");
+		                var turl = document.createElement("a");
+		                turl.setAttribute("href", "https://twitter.com/Twitter/status/"+results[i+2]);
+		                turl.setAttribute("target", "_blank");
+		                turl.appendChild(urltext);
+		                
+		                div2.appendChild(username);
+		                div2.appendChild(handle);
+		                div2.appendChild(br);
+		                div2.appendChild(tweettext);
+		                div2.appendChild(br1);
+		                div2.appendChild(turl);
+		                
+		                document.getElementById('result').appendChild(div1);
+		                document.getElementById('result').appendChild(div2);
+		                
+		                i = i + 7;
+		        	}    
+            }
+        }
+     
+        xmlhttp.open("GET", url, true);
+        xmlhttp.send();
+      }
+}
+</script> 
+  <body>
+        <div class="grid">
+          <div class="heading">
+            <div class="logo">
+              <h3>Team Boolean</h3>
+            </div>
+            <div>
+              <input type="text" style="width:85%" id="search" name="search" placeholder="Search Tweet..">
+              <button  class="btn btn-primary" type="submit" name="searchBtn" onclick=loadXMLDoc()>Search</button>
+            </div>
+          </div>
+          <div class="options">
+          	<div>
+          	<text style="color:blue">Advanced Filter</text></div><br>
+          	City<br>
+          	
+          	<input type="radio" name="city" value="city:nyc" onclick="loadXMLDoc()"> New York City<br>
+  			<input type="radio" name="city" value="city:delhi" onclick="loadXMLDoc()"> Delhi<br>
+  			<input type="radio" name="city" value="city:bangkok" onclick="loadXMLDoc()"> Bangkok<br>
+  			<input type="radio" name="city" value="city:mexico city" onclick="loadXMLDoc()"> Mexico City<br>
+  			<input type="radio" name="city" value="city:paris" onclick="loadXMLDoc()"> Paris<br>
+  			
+  			<br>
+  			Topics<br>
+          	
+          	<input type="radio" name="city" value="topic:politics" onclick="loadXMLDoc()"> Politics<br>
+  			<input type="radio" name="city" value="topic:environment" onclick="loadXMLDoc()"> Environment<br>
+  			<input type="radio" name="city" value="topic:crime" onclick="loadXMLDoc()"> Crime<br>
+  			<input type="radio" name="city" value="topic:social unrest" onclick="loadXMLDoc()"> Social Unrest<br>
+  			<input type="radio" name="city" value="topic:infra" onclick="loadXMLDoc()"> Infrastructure<br>
+  			
+            
+          </div>
+          <div class="pagination">
+            <a href="#">&laquo;</a>
+            <a class="0" href="#"  onclick=follow(event,this) >1</a>
+            <a class="11" href="#" onclick=follow(event,this) >2</a>
+            <a class="21" href="#" onclick=follow(event,this) >3</a>
+            <a class="31" href="#" onclick=follow(event,this) >4</a>
+            <a class="41" href="#" onclick=follow(event,this) >5</a>
+            <a href="#">&raquo;</a>
+            <button class="btn btn-primary" onclick='analytics()'>Analytics</button>
+          </div>
+          <div id="result" class="result">
+			
+          </div>
+        </div>
+  </body>
+</html>
